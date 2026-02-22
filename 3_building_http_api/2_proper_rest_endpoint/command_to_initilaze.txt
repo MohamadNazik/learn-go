@@ -1,0 +1,1 @@
+go mode init proper_rest_endpoint
