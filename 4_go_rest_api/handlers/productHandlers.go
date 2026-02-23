@@ -18,11 +18,14 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 
 	defer rows.Close()
 
-	var products []models.Product
+	products := []models.Product{}
 
 	for rows.Next() {
 		var p models.Product
-		rows.Scan(&p.ID, &p.Title, &p.Description, &p.Price, &p.CreatedAt)
+		if err := rows.Scan(&p.ID, &p.Title, &p.Description, &p.Price, &p.CreatedAt); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		products = append(products, p)
 	}
 
