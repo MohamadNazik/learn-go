@@ -3,6 +3,7 @@ package main
 import (
 	"4_go_rest_api/db"
 	"4_go_rest_api/handlers"
+	"4_go_rest_api/middleware"
 	"bufio"
 	"fmt"
 	"log"
@@ -44,6 +45,8 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	loggedMux := middleware.Logger(mux)
+
 	// User routes
 	mux.HandleFunc("GET /users", handlers.GetUsers)
 	mux.HandleFunc("GET /users/{id}", handlers.GetUser)
@@ -55,6 +58,7 @@ func main() {
 	mux.HandleFunc("GET /products", handlers.GetProducts)
 	mux.HandleFunc("POST /products", handlers.CreateProduct)
 
+	// Start the server
 	fmt.Println("Server running on http://localhost:8080")
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8080", loggedMux)
 }
