@@ -51,6 +51,10 @@ func main() {
 	mux.HandleFunc("PUT /users/{id}", handlers.UpdateUser)
 	mux.HandleFunc("DELETE /users/{id}", handlers.DeleteUser)
 
+	// Product routes
+	mux.HandleFunc("GET /products", handlers.GetProducts)
+	mux.HandleFunc("POST /products", handlers.CreateProduct)
+
 	fmt.Println("Server running on http://localhost:8080")
 	http.ListenAndServe(":8080", mux)
 }
